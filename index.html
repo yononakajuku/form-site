@@ -741,13 +741,20 @@
     }
 
     function setReceiveDateRules() {
-      const receiveDate = document.getElementById('receiveDate');
-      if (!receiveDate) return;
-      const minDate = addBusinessDays(new Date(), 4);
-      receiveDate.min = dateKey(minDate);
-      if (!receiveDate.value) receiveDate.value = dateKey(minDate);
-      handleReceiveDateChange();
-    }
+  const receiveDate = document.getElementById('receiveDate');
+  if (!receiveDate) return;
+
+  const minDate = addBusinessDays(new Date(), 4);
+  const defaultDate = addBusinessDays(new Date(), 9);
+
+  receiveDate.min = dateKey(minDate);
+
+  if (!receiveDate.value) {
+    receiveDate.value = dateKey(defaultDate);
+  }
+
+  handleReceiveDateChange();
+}
 
     function handleReceiveDateChange() {
       const el = document.getElementById('receiveDate');
