@@ -634,7 +634,7 @@
             </label>
             <label class="inline-check">
               <input id="isUrgent" type="checkbox" onchange="calculateTotal()">
-              <span>特急料金対象</span>
+              <span>特別発行費対象</span>
             </label>
             <div id="urgentUiNotice"></div>
           </section>
@@ -781,7 +781,7 @@
       if (!el) return;
 
       if (biz <= 7) {
-        el.innerHTML = '<div class="warn">受取希望日が営業日7日以内のため、特急料金 2,000円 を自動適用しています。</div>';
+        el.innerHTML = '<div class="warn">受取希望日が営業日7日以内のため、特別発行費 2,000円 を自動適用しています。</div>';
       } else {
         el.innerHTML = '';
       }
@@ -862,7 +862,7 @@
 
       rows.push('<div class="row"><span>小計</span><span>' + subtotal + '円</span></div>');
       rows.push('<div class="row"><span>送料</span><span>' + shippingFee + '円</span></div>');
-      rows.push('<div class="row"><span>特急料金</span><span>' + expressFee + '円</span></div>');
+      rows.push('<div class="row"><span>特別発行費</span><span>' + expressFee + '円</span></div>');
 
       document.getElementById('feeBreakdown').innerHTML = rows.join('');
       document.getElementById('totalAmount').textContent = hasError ? '内容確認が必要です' : (total + ' 円');
@@ -993,7 +993,7 @@
           <div><strong>提出先:</strong> ${escapeHtml(payload.destination)}</div>
           <div><strong>備考:</strong> ${escapeHtml(payload.note)}</div>
           <div><strong>在校生:</strong> ${payload.isCurrentStudent ? 'はい' : 'いいえ'}</div>
-          <div><strong>特急料金対象:</strong> ${payload.isUrgent ? 'はい' : 'いいえ'}</div>
+          <div><strong>特別発行費:</strong> ${payload.isUrgent ? 'はい' : 'いいえ'}</div>
           <br>
           <strong>証明書内訳</strong>
           ${itemLines}
