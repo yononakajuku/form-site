@@ -1,171 +1,1217 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>証明書申請フォーム</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>証明書申請フォーム</title>
 
-<style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  background:#eef2f7;
-  font-family:sans-serif;
-}
-.wrap{
-  max-width:640px;
-  margin:0 auto;
-  background:#fff;
-  padding:20px;
-}
-h1{font-size:26px;margin-bottom:10px}
-.section{margin-top:24px}
-input,select,textarea,button{
-  width:100%;
-  padding:14px;
-  margin-top:6px;
-  border-radius:10px;
-  border:1px solid #ccc;
-  font-size:16px;
-}
-button{
-  background:#2563eb;
-  color:#fff;
-  border:none;
-  margin-top:20px;
-}
-.error{color:red;margin-top:10px}
-.success{color:green;margin-top:10px}
-.inline{display:flex;gap:10px;margin-top:10px}
-.inline input{width:auto}
-</style>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      background: #eef2f7;
+      color: #111827;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 100%;
+      padding:
+        max(12px, env(safe-area-inset-top, 0px))
+        8px
+        max(16px, env(safe-area-inset-bottom, 0px));
+      overflow-x: hidden;
+    }
+
+    .wrap,
+    .section,
+    .grid,
+    .item,
+    .summary,
+    .row,
+    div,
+    section {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 18px 12px 24px;
+      overflow-x: hidden;
+    }
+
+    .hero-title {
+      margin: 0 0 18px;
+      font-size: 30px;
+      font-weight: 800;
+      line-height: 1.35;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    .notice-box {
+      margin-bottom: 28px;
+      padding: 16px;
+      background: #f8fafc;
+      border: 1px solid #dbeafe;
+      border-radius: 12px;
+      font-size: 15px;
+      line-height: 1.9;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    .section {
+      padding: 22px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .section:last-child {
+      border-bottom: none;
+    }
+
+    .section-title {
+      margin: 0 0 18px;
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 1.35;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.5;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    .required::after {
+      content: "※";
+      color: #dc2626;
+      margin-left: 6px;
+    }
+
+    input:not([type="checkbox"]):not([type="radio"]),
+    select,
+    textarea,
+    button {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+    }
+
+    input:not([type="checkbox"]):not([type="radio"]),
+    select,
+    textarea {
+      -webkit-appearance: none;
+      appearance: none;
+      border: 1px solid #d1d5db;
+      border-radius: 14px;
+      background: #ffffff;
+      color: #111827;
+      padding: 14px 16px;
+      font-family: inherit;
+      font-size: 16px !important;
+      line-height: 1.4;
+      min-height: 52px;
+      transform: translateZ(0);
+    }
+
+    input[type="checkbox"],
+    input[type="radio"] {
+      -webkit-appearance: auto;
+      appearance: auto;
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
+      min-height: 20px;
+      max-width: 20px;
+      margin: 2px 0 0;
+      padding: 0;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      vertical-align: top;
+      flex: 0 0 20px;
+      transform: none;
+    }
+
+    input[type="date"] {
+      min-height: 52px;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .small {
+      margin-top: 6px;
+      color: #6b7280;
+      font-size: 13px;
+      line-height: 1.8;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    .item {
+      padding: 16px;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      background: #fafafa;
+    }
+
+    .item h3 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1.35;
+      word-break: break-word;
+    }
+
+    .summary {
+      padding: 16px;
+      background: #f8fafc;
+      border: 1px solid #dbeafe;
+      border-radius: 14px;
+      overflow-x: hidden;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px dashed #d1d5db;
+      font-size: 14px;
+      line-height: 1.75;
+    }
+
+    .row:last-child {
+      border-bottom: none;
+    }
+
+    .row > span {
+      min-width: 0;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    .total {
+      margin-top: 14px;
+      color: #2563eb;
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1.3;
+      word-break: break-word;
+    }
+
+    .warn,
+    .error,
+    .success {
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.8;
+      white-space: pre-wrap;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    .warn {
+      background: #fffbeb;
+      color: #b45309;
+      border: 1px solid #fde68a;
+    }
+
+    .error {
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+
+    .success {
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+    }
+
+    .inline-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: nowrap;
+    }
+
+    .inline-check input {
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
+      min-height: 20px;
+      max-width: 20px;
+      margin-top: 2px;
+      flex: 0 0 20px;
+      transform: none;
+    }
+
+    .inline-check span {
+      min-width: 0;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    .primary,
+    .secondary {
+      margin-top: 14px;
+      border-radius: 14px;
+      padding: 16px;
+      font-size: 17px;
+      font-weight: 700;
+      min-height: 52px;
+    }
+
+    .primary {
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+    }
+
+    .secondary {
+      background: #ffffff;
+      color: #334155;
+      border: 1px solid #cbd5e1;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (min-width: 768px) {
+      .page {
+        padding:
+          max(12px, env(safe-area-inset-top, 0px))
+          16px
+          max(20px, env(safe-area-inset-bottom, 0px));
+      }
+
+      .wrap {
+        padding: 24px 20px 32px;
+      }
+
+      .hero-title {
+        font-size: 34px;
+      }
+
+      .section-title {
+        font-size: 26px;
+      }
+
+      .notice-box {
+        font-size: 16px;
+      }
+
+      label {
+        font-size: 17px;
+      }
+
+      .primary,
+      .secondary {
+        font-size: 17px;
+      }
+    }
+  </style>
 </head>
-
 <body>
-<div class="wrap">
+  <div class="page">
+    <div class="wrap">
+      <div id="app">画面を準備中...</div>
+    </div>
+  </div>
 
-<h1>証明書申請フォーム</h1>
+  <script>
+    const GAS_URL = 'https://script.google.com/a/macros/yononaka-juku.org/s/AKfycbw08ycaYprjeNE5qMJX_EP9CW5iVnWSSZVcG6zRXcC58H7GtCh4YOaIJ9Gp7ya2rEpIMA/exec';
 
-<div class="section">
-<label>氏名</label>
-<input id="name">
+    const initialData = {
+      certificateTypes: [
+        { type: '在学証明書', currentFee: 500, graduateFee: 800, englishFee: 3000, englishAvailable: true },
+        { type: '成績・単位修得証明書', currentFee: 500, graduateFee: 800, englishFee: 3000, englishAvailable: true },
+        { type: '調査書', currentFee: 500, graduateFee: 800, englishFee: 0, englishAvailable: false },
+        { type: '卒業見込み証明書', currentFee: 500, graduateFee: 800, englishFee: 3000, englishAvailable: true },
+        { type: '卒業証明書', currentFee: 500, graduateFee: 800, englishFee: 3000, englishAvailable: true },
+        { type: '推薦書', currentFee: 500, graduateFee: 800, englishFee: 0, englishAvailable: false },
+        { type: '出席記録証明書', currentFee: 500, graduateFee: 800, englishFee: 0, englishAvailable: false },
+        { type: 'その他（備考欄にご記入ください）', currentFee: 500, graduateFee: 800, englishFee: 0, englishAvailable: false }
+      ],
+      receiptMethods: ['よのなか塾', '自宅・その他'],
+      languages: ['日本文', '英文'],
+      designatedFormats: ['無', '有'],
+      courseOptions: ['OU', 'その他'],
+      shippingFee: 500,
+      urgentFee: 2000
+    };
 
-<label>かな</label>
-<input id="kana">
+    let tempPayload = null;
+    let holidayMap = {};
+    let submitting = false;
+    const appEl = document.getElementById('app');
 
-<label>学籍番号</label>
-<input id="studentNo">
+    renderForm();
+    setReceiveDateRules();
+    calculateTotal();
 
-<label>メール</label>
-<input id="email">
-</div>
+    loadHolidayMap()
+      .then(function() {
+        setReceiveDateRules();
+        handleReceiveDateChange();
+      })
+      .catch(function() {});
 
-<div class="section">
-<label>受取方法</label>
-<select id="receiveMethod">
-<option value="よのなか塾">よのなか塾</option>
-<option value="自宅・その他">自宅・その他</option>
-</select>
+    async function loadHolidayMap() {
+      holidayMap = {};
+      try {
+        const year = new Date().getFullYear();
+        const years = [year, year + 1];
+        for (const y of years) {
+          try {
+            const res = await fetch('https://holidays-jp.github.io/api/v1/' + y + '/date.json');
+            if (!res.ok) continue;
+            const json = await res.json();
+            Object.assign(holidayMap, json || {});
+          } catch (e) {}
+        }
+      } catch (e) {
+        holidayMap = {};
+      }
+    }
 
-<label>受取日</label>
-<input id="receiveDate" type="date">
-</div>
+    function renderForm() {
+      const certOptions = initialData.certificateTypes.map(function(c) {
+        return '<option value="' + escapeHtml(c.type) + '">' + escapeHtml(c.type) + '</option>';
+      }).join('');
 
-<div class="section">
-<label>証明書</label>
-<select id="certificateType">
-<option value="在学証明書">在学証明書</option>
-<option value="成績・単位修得証明書">成績・単位修得証明書</option>
-<option value="卒業証明書">卒業証明書</option>
-</select>
+      const languageOptions = (initialData.languages || ['日本文', '英文']).map(function(v) {
+        return '<option value="' + escapeHtml(v) + '">' + escapeHtml(v) + '</option>';
+      }).join('');
 
-<label>通数</label>
-<input id="quantity" type="number" value="1">
-</div>
+      const formatOptions = (initialData.designatedFormats || ['無', '有']).map(function(v) {
+        return '<option value="' + escapeHtml(v) + '">' + escapeHtml(v) + '</option>';
+      }).join('');
 
-<div class="section">
-<label>使用目的</label>
-<input id="purpose">
+      let itemHtml = '';
+      for (let i = 1; i <= 4; i++) {
+        itemHtml += `
+          <div class="item">
+            <h3>証明書 ${i}</h3>
+            <div class="grid">
+              <div>
+                <label>証明書種別</label>
+                <select id="certificateType${i}" onchange="onCertificateChange(${i}); calculateTotal();">
+                  <option value="">選択してください</option>
+                  ${certOptions}
+                </select>
+                <div id="feeInfo${i}" class="small"></div>
+              </div>
+              <div>
+                <label>言語区分</label>
+                <select id="language${i}" onchange="onCertificateChange(${i}); calculateTotal();">
+                  ${languageOptions}
+                </select>
+              </div>
+              <div>
+                <label>指定書式</label>
+                <select id="designatedFormat${i}" onchange="calculateTotal();">
+                  ${formatOptions}
+                </select>
+              </div>
+              <div>
+                <label>必要通数</label>
+                <input id="quantity${i}" type="number" min="0" step="1" value="0" oninput="calculateTotal()">
+              </div>
+            </div>
+          </div>
+        `;
+      }
 
-<label>提出期限</label>
-<input id="deadline" type="date">
+      appEl.innerHTML = `
+        <h1 class="hero-title">証明書申請フォーム</h1>
 
-<label>提出先</label>
-<input id="destination">
-</div>
+        <div class="notice-box">
+          ※申請受理から発行までに２週間程かかります。<br>
+          ※申請日から土・日・祝除く7日以内の発行を希望する場合、特別発行費として2,000円を徴収いたします。<br>
+          ※郵送日数の都合上、提出期限まで土・日・祝除く4日以内の申請はお受けできませんので予めご了承下さい。<br>
+          ※料金は全て代々木高校へ支払いますがよのなか塾が預かって代わりに支払います。よのなか塾で受け取る際は各種証明書と引き換えに現金でお支払いください。郵送でお受け取りの場合、後日よのなか塾まで現金でお支払いください。
+        </div>
 
-<div class="section">
-<div class="inline">
-<input type="checkbox" id="isCurrentStudent" checked>
-<span>在校生</span>
-</div>
+        <div id="formArea">
+          <section class="section">
+            <h2 class="section-title">申請者情報</h2>
+            <div class="grid">
+              <div>
+                <label class="required">氏名</label>
+                <input id="name" type="text" inputmode="text">
+              </div>
+              <div>
+                <label class="required">かな</label>
+                <input id="kana" type="text" inputmode="text">
+              </div>
+              <div>
+                <label class="required">コース</label>
+                <select id="course" onchange="toggleCourseFields()">
+                  <option value="OU" selected>OU</option>
+                  <option value="その他">その他</option>
+                </select>
+              </div>
+              <div>
+                <label class="required">サテライト</label>
+                <input id="satelliteName" type="text" value="北京都" readonly>
+              </div>
+              <div>
+                <label class="required">学籍番号</label>
+                <input id="studentNo" type="text" inputmode="numeric" placeholder="例：1234 / 新入生・転入生は0000">
+                <div class="small">※新入生・転入生は「0000」と記載してください</div>
+              </div>
+              <div>
+                <label class="required">メールアドレス</label>
+                <input id="email" type="email" inputmode="email" autocapitalize="off" autocomplete="email">
+              </div>
+              <div>
+                <label>生年月日</label>
+                <input id="birthDate" type="date">
+              </div>
+              <div>
+                <label>電話番号</label>
+                <input id="phone" type="tel" inputmode="tel" autocomplete="tel">
+              </div>
+            </div>
+          </section>
 
-<div class="inline">
-<input type="checkbox" id="isUrgent">
-<span>特急</span>
-</div>
-</div>
+          <section class="section">
+            <h2 class="section-title">受け取り情報</h2>
+            <div class="grid">
+              <div>
+                <label class="required">受取方法</label>
+                <select id="receiveMethod" onchange="toggleReceiveMode(); calculateTotal();">
+                  <option value="よのなか塾" selected>よのなか塾</option>
+                  <option value="自宅・その他">自宅・その他</option>
+                </select>
+              </div>
+              <div>
+                <label class="required">受取希望日</label>
+                <input id="receiveDate" type="date" onchange="handleReceiveDateChange()">
+                <div id="dateRuleMessage" class="small"></div>
+              </div>
+            </div>
 
-<button onclick="submitForm()">送信する</button>
+            <div id="receiveSameBlock" class="hidden" style="margin-top:10px;">
+              <label class="inline-check">
+                <input id="receiveAddressSame" type="checkbox" checked onchange="toggleReceiveAddress()">
+                <span>受取住所は現住所と同じ</span>
+              </label>
+            </div>
+          </section>
 
-<div id="msg"></div>
+          <section id="addressSection" class="section hidden">
+            <h2 class="section-title">現住所</h2>
+            <div class="grid">
+              <div>
+                <label>郵便番号</label>
+                <input id="currentPostalCode" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="1234567" onblur="lookupAddress()">
+              </div>
+              <div>
+                <label>都道府県</label>
+                <input id="currentPrefecture" type="text" autocomplete="address-level1">
+              </div>
+              <div>
+                <label>市区町村</label>
+                <input id="currentCity" type="text" autocomplete="address-level2">
+              </div>
+              <div>
+                <label>番地・建物名</label>
+                <input id="currentAddress1" type="text" autocomplete="street-address">
+              </div>
+            </div>
+          </section>
 
-</div>
+          <section id="receiveAddressBlock" class="section hidden">
+            <h2 class="section-title">受け取り先住所</h2>
+            <div class="grid">
+              <div>
+                <label>受け取り先郵便番号</label>
+                <input id="receivePostalCode" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="1234567" onblur="lookupReceiveAddress()">
+              </div>
+              <div>
+                <label>受け取り先都道府県</label>
+                <input id="receivePrefecture" type="text" autocomplete="address-level1">
+              </div>
+              <div>
+                <label>受け取り先市区町村</label>
+                <input id="receiveCity" type="text" autocomplete="address-level2">
+              </div>
+              <div>
+                <label>受け取り先番地・建物名</label>
+                <input id="receiveAddress1" type="text" autocomplete="street-address">
+              </div>
+              <div>
+                <label>受け取り先電話番号</label>
+                <input id="receivePhone" type="tel" inputmode="tel" autocomplete="tel">
+              </div>
+            </div>
+          </section>
 
-<script>
-const GAS_URL = "https://script.google.com/a/macros/yononaka-juku.org/s/AKfycbw08ycaYprjeNE5qMJX_EP9CW5iVnWSSZVcG6zRXcC58H7GtCh4YOaIJ9Gp7ya2rEpIMA/exec";
+          <section class="section">
+            <h2 class="section-title">必要な証明書</h2>
+            <div class="grid">
+              ${itemHtml}
+            </div>
+          </section>
 
-async function submitForm(){
+          <section class="section">
+            <h2 class="section-title">使用目的など</h2>
+            <div class="grid">
+              <div>
+                <label class="required">使用目的</label>
+                <input id="purpose" type="text">
+              </div>
+              <div>
+                <label class="required">提出期限</label>
+                <input id="deadline" type="date">
+              </div>
+              <div>
+                <label class="required">提出先</label>
+                <input id="destination" type="text">
+                <div class="small">
+                  ※進学先の場合は、学校名・学部・学科・コース名等の詳細を記入すること<br>
+                  ※募集要項のコピー等、必要書類を別途提出してください<br>
+                  ※指定様式がある場合は一緒に提出してください
+                </div>
+              </div>
+            </div>
+            <div style="margin-top:12px;">
+              <label>備考</label>
+              <textarea id="note"></textarea>
+            </div>
+          </section>
 
-  const msg = document.getElementById("msg");
-  msg.innerHTML = "送信中...";
+          <section class="section">
+            <h2 class="section-title">確認事項</h2>
+            <label class="inline-check">
+              <input id="isCurrentStudent" type="checkbox" checked onchange="calculateTotal(); refreshFeeInfos()">
+              <span>在校生です</span>
+            </label>
+            <label class="inline-check">
+              <input id="isUrgent" type="checkbox" onchange="calculateTotal()">
+              <span>特急料金対象</span>
+            </label>
+            <div id="urgentUiNotice"></div>
+          </section>
 
-  const data = {
-    name: v("name"),
-    kana: v("kana"),
-    studentNo: v("studentNo"),
-    email: v("email"),
-    receiveMethod: v("receiveMethod"),
-    receiveDate: v("receiveDate"),
-    purpose: v("purpose"),
-    deadline: v("deadline"),
-    destination: v("destination"),
-    isCurrentStudent: document.getElementById("isCurrentStudent").checked,
-    isUrgent: document.getElementById("isUrgent").checked,
-    items: [{
-      certificateType: v("certificateType"),
-      language: "日本文",
-      designatedFormat: "無",
-      quantity: v("quantity")
-    }]
-  };
+          <section class="section">
+            <h2 class="section-title">合計金額（目安）</h2>
+            <div class="summary">
+              <div id="feeBreakdown"></div>
+              <div id="totalAmount" class="total">0 円</div>
+            </div>
+          </section>
 
-  try{
-    const res = await fetch(GAS_URL,{
-      method:"POST",
-      headers:{
-        "Content-Type":"text/plain"
-      },
-      body:JSON.stringify(data)
-    });
+          <button class="primary" onclick="openConfirm()">入力内容を確認する</button>
+          <div id="message"></div>
+        </div>
 
-    const json = await res.json();
+        <div id="confirmArea" class="hidden">
+          <section class="section">
+            <h2 class="section-title">入力内容確認</h2>
+            <div id="confirmContent"></div>
+            <button id="submitBtn" class="primary" onclick="finalSubmit()">この内容で送信する</button>
+            <button class="secondary" onclick="backToEdit()">修正する</button>
+            <div id="confirmMessage"></div>
+          </section>
+        </div>
+      `;
 
-    if(!json.success) throw new Error(json.message);
+      toggleCourseFields();
+      toggleReceiveMode();
+      for (let i = 1; i <= 4; i++) onCertificateChange(i);
+    }
 
-    msg.innerHTML =
-      '<div class="success">完了<br>受付番号:'+json.receiptNo+'</div>';
+    function toggleCourseFields() {
+      const course = valueOf('course');
+      const sat = document.getElementById('satelliteName');
 
-  }catch(e){
-    msg.innerHTML =
-      '<div class="error">'+e.message+'</div>';
-  }
-}
+      if (course === 'OU') {
+        sat.value = '北京都';
+        sat.readOnly = true;
+      } else {
+        sat.value = '';
+        sat.readOnly = false;
+      }
+    }
 
-function v(id){
-  return document.getElementById(id).value;
-}
-</script>
+    function toggleReceiveMode() {
+      const receiveMethod = valueOf('receiveMethod');
+      const show = receiveMethod === '自宅・その他';
 
+      document.getElementById('addressSection').classList.toggle('hidden', !show);
+      document.getElementById('receiveSameBlock').classList.toggle('hidden', !show);
+
+      if (!show) {
+        document.getElementById('receiveAddressBlock').classList.add('hidden');
+      } else {
+        toggleReceiveAddress();
+      }
+    }
+
+    function toggleReceiveAddress() {
+      const same = document.getElementById('receiveAddressSame').checked;
+      const show = valueOf('receiveMethod') === '自宅・その他' && !same;
+      document.getElementById('receiveAddressBlock').classList.toggle('hidden', !show);
+    }
+
+    function dateKey(date) {
+      const y = date.getFullYear();
+      const m = ('0' + (date.getMonth() + 1)).slice(-2);
+      const d = ('0' + date.getDate()).slice(-2);
+      return y + '-' + m + '-' + d;
+    }
+
+    function isHolidayOrWeekend(date) {
+      const day = date.getDay();
+      if (day === 0 || day === 6) return true;
+      return !!holidayMap[dateKey(date)];
+    }
+
+    function addBusinessDays(baseDate, days) {
+      const d = new Date(baseDate);
+      d.setHours(0, 0, 0, 0);
+      let count = 0;
+      while (count < days) {
+        d.setDate(d.getDate() + 1);
+        if (!isHolidayOrWeekend(d)) count++;
+      }
+      return d;
+    }
+
+    function businessDaysBetween(fromDate, toDate) {
+      const from = new Date(fromDate);
+      const to = new Date(toDate);
+      from.setHours(0, 0, 0, 0);
+      to.setHours(0, 0, 0, 0);
+      let count = 0;
+      const cursor = new Date(from);
+      while (cursor < to) {
+        cursor.setDate(cursor.getDate() + 1);
+        if (!isHolidayOrWeekend(cursor)) count++;
+      }
+      return count;
+    }
+
+    function setReceiveDateRules() {
+      const receiveDate = document.getElementById('receiveDate');
+      if (!receiveDate) return;
+      const minDate = addBusinessDays(new Date(), 4);
+      receiveDate.min = dateKey(minDate);
+      if (!receiveDate.value) receiveDate.value = dateKey(minDate);
+      handleReceiveDateChange();
+    }
+
+    function handleReceiveDateChange() {
+      const el = document.getElementById('receiveDate');
+      if (!el || !el.value) return;
+
+      const selected = new Date(el.value);
+      selected.setHours(0, 0, 0, 0);
+      const minDate = addBusinessDays(new Date(), 4);
+      const msgEl = document.getElementById('dateRuleMessage');
+
+      if (selected < minDate) {
+        el.value = dateKey(minDate);
+        msgEl.textContent = '自動で最短日を設定しました。';
+      } else {
+        msgEl.textContent = '';
+      }
+
+      const biz = businessDaysBetween(new Date(), new Date(el.value));
+      document.getElementById('isUrgent').checked = biz <= 7;
+      updateUrgentUiNotice(biz);
+      calculateTotal();
+    }
+
+    function updateUrgentUiNotice(biz) {
+      const el = document.getElementById('urgentUiNotice');
+      if (!el) return;
+
+      if (biz <= 7) {
+        el.innerHTML = '<div class="warn">受取希望日が営業日7日以内のため、特急料金 2,000円 を自動適用しています。</div>';
+      } else {
+        el.innerHTML = '';
+      }
+    }
+
+    function getCertificateMaster(type) {
+      return (initialData.certificateTypes || []).find(function(c) {
+        return c.type === type;
+      }) || null;
+    }
+
+    function getUnitFee(type, language, isCurrentStudent) {
+      const master = getCertificateMaster(type);
+      if (!master) return { fee: 0, error: '' };
+
+      if (language === '英文') {
+        if (!master.englishAvailable) return { fee: 0, error: 'この証明書は英文不可です' };
+        if (String(type).indexOf('調査書') !== -1) return { fee: 0, error: '英文の調査書は発行していません' };
+        return { fee: Number(master.englishFee || 0), error: '' };
+      }
+
+      return {
+        fee: isCurrentStudent ? Number(master.currentFee || 0) : Number(master.graduateFee || 0),
+        error: ''
+      };
+    }
+
+    function onCertificateChange(index) {
+      const type = valueOf('certificateType' + index);
+      const language = valueOf('language' + index);
+      const isCurrentStudent = document.getElementById('isCurrentStudent').checked;
+      const infoEl = document.getElementById('feeInfo' + index);
+
+      if (!type) {
+        infoEl.textContent = '';
+        return;
+      }
+
+      const result = getUnitFee(type, language, isCurrentStudent);
+      infoEl.textContent = result.error ? result.error : ('単価: ' + result.fee + '円');
+      infoEl.style.color = result.error ? '#b91c1c' : '#6b7280';
+    }
+
+    function refreshFeeInfos() {
+      for (let i = 1; i <= 4; i++) onCertificateChange(i);
+    }
+
+    function calculateTotal() {
+      const isCurrentStudent = document.getElementById('isCurrentStudent').checked;
+      const isUrgent = document.getElementById('isUrgent').checked;
+
+      let subtotal = 0;
+      let rows = [];
+      let hasError = false;
+
+      for (let i = 1; i <= 4; i++) {
+        const type = valueOf('certificateType' + i);
+        const language = valueOf('language' + i);
+        const qty = Number(valueOf('quantity' + i) || 0);
+
+        if (!type || qty <= 0) continue;
+
+        const result = getUnitFee(type, language, isCurrentStudent);
+        if (result.error) {
+          rows.push('<div class="row"><span>証明書' + i + '</span><span>' + escapeHtml(result.error) + '</span></div>');
+          hasError = true;
+          continue;
+        }
+
+        const amount = result.fee * qty;
+        subtotal += amount;
+        rows.push('<div class="row"><span>' + escapeHtml(type) + ' / ' + escapeHtml(language) + ' / ' + qty + '通</span><span>' + amount + '円</span></div>');
+      }
+
+      const shippingFee = 500;
+      const expressFee = isUrgent ? 2000 : 0;
+      const total = subtotal + shippingFee + expressFee;
+
+      rows.push('<div class="row"><span>小計</span><span>' + subtotal + '円</span></div>');
+      rows.push('<div class="row"><span>送料</span><span>' + shippingFee + '円</span></div>');
+      rows.push('<div class="row"><span>特急料金</span><span>' + expressFee + '円</span></div>');
+
+      document.getElementById('feeBreakdown').innerHTML = rows.join('');
+      document.getElementById('totalAmount').textContent = hasError ? '内容確認が必要です' : (total + ' 円');
+    }
+
+    function lookupAddress() {
+      const zip = normalizePostal(valueOf('currentPostalCode'));
+      if (!zip || zip.length !== 7) return;
+
+      fetch('https://zipcloud.ibsnet.co.jp/api/search?zipcode=' + encodeURIComponent(zip))
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (!data || !data.results || !data.results[0]) return;
+          const r = data.results[0];
+          document.getElementById('currentPrefecture').value = r.address1 || '';
+          document.getElementById('currentCity').value = (r.address2 || '') + (r.address3 || '');
+        })
+        .catch(function() {});
+    }
+
+    function lookupReceiveAddress() {
+      const zip = normalizePostal(valueOf('receivePostalCode'));
+      if (!zip || zip.length !== 7) return;
+
+      fetch('https://zipcloud.ibsnet.co.jp/api/search?zipcode=' + encodeURIComponent(zip))
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (!data || !data.results || !data.results[0]) return;
+          const r = data.results[0];
+          document.getElementById('receivePrefecture').value = r.address1 || '';
+          document.getElementById('receiveCity').value = (r.address2 || '') + (r.address3 || '');
+        })
+        .catch(function() {});
+    }
+
+    function collectFormData() {
+      const items = [];
+      for (let i = 1; i <= 4; i++) {
+        const certificateType = valueOf('certificateType' + i);
+        const quantity = valueOf('quantity' + i);
+        if (certificateType || quantity) {
+          items.push({
+            certificateType: certificateType,
+            language: valueOf('language' + i),
+            designatedFormat: valueOf('designatedFormat' + i),
+            quantity: quantity
+          });
+        }
+      }
+
+      const course = valueOf('course');
+      const receiveMethod = valueOf('receiveMethod');
+      const receiveAddressSame = document.getElementById('receiveAddressSame').checked;
+
+      return {
+        studentNo: valueOf('studentNo'),
+        kana: valueOf('kana'),
+        name: valueOf('name'),
+        course: course,
+        courseDisplay: course,
+        satelliteName: valueOf('satelliteName'),
+        email: valueOf('email'),
+        birthDate: valueOf('birthDate'),
+        currentPostalCode: normalizePostal(valueOf('currentPostalCode')),
+        currentPrefecture: valueOf('currentPrefecture'),
+        currentCity: valueOf('currentCity'),
+        currentAddress1: valueOf('currentAddress1'),
+        phone: valueOf('phone'),
+        receiveDate: valueOf('receiveDate'),
+        receiveMethod: receiveMethod,
+        receiveAddressSame: receiveAddressSame,
+        receivePostalCode: receiveMethod === '自宅・その他'
+          ? (receiveAddressSame ? normalizePostal(valueOf('currentPostalCode')) : normalizePostal(valueOf('receivePostalCode')))
+          : '',
+        receivePrefecture: receiveMethod === '自宅・その他'
+          ? (receiveAddressSame ? valueOf('currentPrefecture') : valueOf('receivePrefecture'))
+          : '',
+        receiveCity: receiveMethod === '自宅・その他'
+          ? (receiveAddressSame ? valueOf('currentCity') : valueOf('receiveCity'))
+          : '',
+        receiveAddress1: receiveMethod === '自宅・その他'
+          ? (receiveAddressSame ? valueOf('currentAddress1') : valueOf('receiveAddress1'))
+          : '',
+        receivePhone: receiveMethod === '自宅・その他'
+          ? (receiveAddressSame ? valueOf('phone') : valueOf('receivePhone'))
+          : '',
+        purpose: valueOf('purpose'),
+        deadline: valueOf('deadline'),
+        destination: valueOf('destination'),
+        note: valueOf('note'),
+        isCurrentStudent: document.getElementById('isCurrentStudent').checked,
+        isUrgent: document.getElementById('isUrgent').checked,
+        items: items
+      };
+    }
+
+    function buildConfirmHtml(payload) {
+      const currentAddress = escapeHtml([payload.currentPrefecture, payload.currentCity, payload.currentAddress1].filter(Boolean).join(''));
+      const receiveAddress = escapeHtml([payload.receivePrefecture, payload.receiveCity, payload.receiveAddress1].filter(Boolean).join(''));
+
+      const itemLines = payload.items
+        .filter(function(item) {
+          return item.certificateType && Number(item.quantity) > 0;
+        })
+        .map(function(item, idx) {
+          return '<div class="row"><span>証明書' + (idx + 1) + ': ' +
+            escapeHtml(item.certificateType) + ' / ' +
+            escapeHtml(item.language || '') + ' / ' +
+            escapeHtml(item.designatedFormat || '') + ' / ' +
+            escapeHtml(String(item.quantity)) + '通</span></div>';
+        }).join('');
+
+      return `
+        <div class="summary">
+          <div><strong>氏名:</strong> ${escapeHtml(payload.name)}</div>
+          <div><strong>かな:</strong> ${escapeHtml(payload.kana)}</div>
+          <div><strong>コース:</strong> ${escapeHtml(payload.courseDisplay)}</div>
+          <div><strong>サテライト:</strong> ${escapeHtml(payload.satelliteName)}</div>
+          <div><strong>学籍番号:</strong> ${escapeHtml(payload.studentNo)}</div>
+          <div><strong>メールアドレス:</strong> ${escapeHtml(payload.email)}</div>
+          <div><strong>受取方法:</strong> ${escapeHtml(payload.receiveMethod)}</div>
+          <div><strong>受取希望日:</strong> ${escapeHtml(payload.receiveDate)}</div>
+          ${payload.receiveMethod === '自宅・その他' ? '<div><strong>現住所:</strong> ' + currentAddress + '</div>' : ''}
+          ${payload.receiveMethod === '自宅・その他' ? '<div><strong>受け取り先住所:</strong> ' + receiveAddress + '</div>' : ''}
+          <div><strong>電話番号:</strong> ${escapeHtml(payload.phone)}</div>
+          <div><strong>使用目的:</strong> ${escapeHtml(payload.purpose)}</div>
+          <div><strong>提出期限:</strong> ${escapeHtml(payload.deadline)}</div>
+          <div><strong>提出先:</strong> ${escapeHtml(payload.destination)}</div>
+          <div><strong>備考:</strong> ${escapeHtml(payload.note)}</div>
+          <div><strong>在校生:</strong> ${payload.isCurrentStudent ? 'はい' : 'いいえ'}</div>
+          <div><strong>特急料金対象:</strong> ${payload.isUrgent ? 'はい' : 'いいえ'}</div>
+          <br>
+          <strong>証明書内訳</strong>
+          ${itemLines}
+          <br>
+          <strong>合計金額:</strong> ${escapeHtml(document.getElementById('totalAmount').textContent)}
+          <br>
+          <div style="color:#b91c1c; font-weight:bold; margin-top:10px;">
+            ※別途募集要項のコピー等、必要書類、指定様式の用紙などが必要な場合、それらを直接提出した時点で申請開始となります。
+          </div>
+        </div>
+      `;
+    }
+
+    function openConfirm() {
+      const requiredFields = [
+        { id: 'name', label: '氏名' },
+        { id: 'kana', label: 'かな' },
+        { id: 'course', label: 'コース' },
+        { id: 'satelliteName', label: 'サテライト' },
+        { id: 'studentNo', label: '学籍番号' },
+        { id: 'email', label: 'メールアドレス' },
+        { id: 'receiveMethod', label: '受取方法' },
+        { id: 'receiveDate', label: '受取希望日' },
+        { id: 'purpose', label: '使用目的' },
+        { id: 'deadline', label: '提出期限' },
+        { id: 'destination', label: '提出先' }
+      ];
+
+      let errors = [];
+      let firstError = null;
+
+      requiredFields.forEach(function(field) {
+        const input = document.getElementById(field.id);
+        if (!input) return;
+
+        const value = (input.value || '').trim();
+
+        if (!value) {
+          errors.push('・' + field.label);
+          input.style.border = '2px solid red';
+          if (!firstError) firstError = input;
+        } else {
+          input.style.border = '';
+        }
+      });
+
+      const emailEl = document.getElementById('email');
+      if (emailEl && emailEl.value.trim()) {
+        const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim());
+        if (!ok) {
+          errors.push('・メールアドレスの形式が正しくありません');
+          emailEl.style.border = '2px solid red';
+          if (!firstError) firstError = emailEl;
+        }
+      }
+
+      if (valueOf('receiveMethod') === '自宅・その他') {
+        const same = document.getElementById('receiveAddressSame').checked;
+
+        const currentRequired = [
+          { id: 'currentPostalCode', label: '現住所 郵便番号' },
+          { id: 'currentPrefecture', label: '現住所 都道府県' },
+          { id: 'currentCity', label: '現住所 市区町村' },
+          { id: 'currentAddress1', label: '現住所 番地・建物名' }
+        ];
+
+        currentRequired.forEach(function(field) {
+          const input = document.getElementById(field.id);
+          const value = (input.value || '').trim();
+          if (!value) {
+            errors.push('・' + field.label);
+            input.style.border = '2px solid red';
+            if (!firstError) firstError = input;
+          } else {
+            input.style.border = '';
+          }
+        });
+
+        if (!same) {
+          const receiveRequired = [
+            { id: 'receivePostalCode', label: '受け取り先 郵便番号' },
+            { id: 'receivePrefecture', label: '受け取り先 都道府県' },
+            { id: 'receiveCity', label: '受け取り先 市区町村' },
+            { id: 'receiveAddress1', label: '受け取り先 番地・建物名' }
+          ];
+
+          receiveRequired.forEach(function(field) {
+            const input = document.getElementById(field.id);
+            const value = (input.value || '').trim();
+            if (!value) {
+              errors.push('・' + field.label);
+              input.style.border = '2px solid red';
+              if (!firstError) firstError = input;
+            } else {
+              input.style.border = '';
+            }
+          });
+        }
+      }
+
+      const items = collectFormData().items.filter(function(item) {
+        return item.certificateType && Number(item.quantity) > 0;
+      });
+
+      if (items.length === 0) {
+        errors.push('・証明書を1件以上入力してください');
+      }
+
+      let itemErrorFound = false;
+      items.forEach(function(item) {
+        const result = getUnitFee(item.certificateType, item.language, document.getElementById('isCurrentStudent').checked);
+        if (result.error) itemErrorFound = true;
+      });
+
+      if (itemErrorFound) {
+        errors.push('・証明書設定にエラーがあります');
+      }
+
+      if (errors.length > 0) {
+        document.getElementById('message').innerHTML =
+          '<div class="error">' +
+          '以下の項目を確認してください：<br><br>' +
+          errors.join('<br>') +
+          '</div>';
+
+        if (firstError) {
+          firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
+      }
+
+      document.getElementById('message').innerHTML = '';
+
+      tempPayload = collectFormData();
+      document.getElementById('confirmContent').innerHTML = buildConfirmHtml(tempPayload);
+      document.getElementById('formArea').classList.add('hidden');
+      document.getElementById('confirmArea').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function backToEdit() {
+      document.getElementById('confirmArea').classList.add('hidden');
+      document.getElementById('formArea').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    async function finalSubmit() {
+      if (submitting) return;
+
+      if (!tempPayload) {
+        tempPayload = collectFormData();
+      }
+
+      const btn = document.getElementById('submitBtn');
+      const msg = document.getElementById('confirmMessage');
+
+      submitting = true;
+      btn.disabled = true;
+      btn.textContent = '送信中...';
+      msg.innerHTML = '';
+
+      try {
+        const res = await fetch(GAS_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
+          body: JSON.stringify(tempPayload)
+        });
+
+        const data = await res.json();
+
+        if (!data.success) {
+          throw new Error(data.message || '送信に失敗しました。');
+        }
+
+        let mailInfo = '';
+        if (data.mailResult) {
+          mailInfo =
+            '<br>申請者メール: ' + escapeHtml(data.mailResult.applicant || '') +
+            '<br>管理者メール: ' + escapeHtml(data.mailResult.admin || '');
+        }
+
+        msg.innerHTML =
+          '<div class="success">' +
+          '申請が完了しました。<br>' +
+          '受付ID: ' + escapeHtml(data.receiptNo || '') + '<br>' +
+          '合計金額: ' + escapeHtml(String(data.total || '')) + '円' +
+          mailInfo +
+          '<br><br>' +
+          '<span style="color:red; font-weight:bold;">' +
+          '※別途募集要項のコピー等、必要書類、指定様式の用紙などが必要な場合、それらを直接提出した時点で申請開始となります。' +
+          '</span>' +
+          '</div>';
+      } catch (err) {
+        msg.innerHTML =
+          '<div class="error">' +
+          escapeHtml(err.message || '送信に失敗しました。') +
+          '</div>';
+      } finally {
+        submitting = false;
+        btn.disabled = false;
+        btn.textContent = 'この内容で送信する';
+      }
+    }
+
+    function valueOf(id) {
+      const el = document.getElementById(id);
+      return el ? el.value.trim() : '';
+    }
+
+    function normalizePostal(v) {
+      return String(v || '').replace(/-/g, '').trim();
+    }
+
+    function escapeHtml(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
 </body>
 </html>
