@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>証明書申請フォーム</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:#eef2f7;
+  font-family:sans-serif;
+}
+.wrap{
+  max-width:640px;
+  margin:0 auto;
+  background:#fff;
+  padding:20px;
+}
+h1{font-size:26px;margin-bottom:10px}
+.section{margin-top:24px}
+input,select,textarea,button{
+  width:100%;
+  padding:14px;
+  margin-top:6px;
+  border-radius:10px;
+  border:1px solid #ccc;
+  font-size:16px;
+}
+button{
+  background:#2563eb;
+  color:#fff;
+  border:none;
+  margin-top:20px;
+}
+.error{color:red;margin-top:10px}
+.success{color:green;margin-top:10px}
+.inline{display:flex;gap:10px;margin-top:10px}
+.inline input{width:auto}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+<h1>証明書申請フォーム</h1>
+
+<div class="section">
+<label>氏名</label>
+<input id="name">
+
+<label>かな</label>
+<input id="kana">
+
+<label>学籍番号</label>
+<input id="studentNo">
+
+<label>メール</label>
+<input id="email">
+</div>
+
+<div class="section">
+<label>受取方法</label>
+<select id="receiveMethod">
+<option value="よのなか塾">よのなか塾</option>
+<option value="自宅・その他">自宅・その他</option>
+</select>
+
+<label>受取日</label>
+<input id="receiveDate" type="date">
+</div>
+
+<div class="section">
+<label>証明書</label>
+<select id="certificateType">
+<option value="在学証明書">在学証明書</option>
+<option value="成績・単位修得証明書">成績・単位修得証明書</option>
+<option value="卒業証明書">卒業証明書</option>
+</select>
+
+<label>通数</label>
+<input id="quantity" type="number" value="1">
+</div>
+
+<div class="section">
+<label>使用目的</label>
+<input id="purpose">
+
+<label>提出期限</label>
+<input id="deadline" type="date">
+
+<label>提出先</label>
+<input id="destination">
+</div>
+
+<div class="section">
+<div class="inline">
+<input type="checkbox" id="isCurrentStudent" checked>
+<span>在校生</span>
+</div>
+
+<div class="inline">
+<input type="checkbox" id="isUrgent">
+<span>特急</span>
+</div>
+</div>
+
+<button onclick="submitForm()">送信する</button>
+
+<div id="msg"></div>
+
+</div>
+
+<script>
+const GAS_URL = "https://script.google.com/a/macros/yononaka-juku.org/s/AKfycbw08ycaYprjeNE5qMJX_EP9CW5iVnWSSZVcG6zRXcC58H7GtCh4YOaIJ9Gp7ya2rEpIMA/exec";
+
+async function submitForm(){
+
+  const msg = document.getElementById("msg");
+  msg.innerHTML = "送信中...";
+
+  const data = {
+    name: v("name"),
+    kana: v("kana"),
+    studentNo: v("studentNo"),
+    email: v("email"),
+    receiveMethod: v("receiveMethod"),
+    receiveDate: v("receiveDate"),
+    purpose: v("purpose"),
+    deadline: v("deadline"),
+    destination: v("destination"),
+    isCurrentStudent: document.getElementById("isCurrentStudent").checked,
+    isUrgent: document.getElementById("isUrgent").checked,
+    items: [{
+      certificateType: v("certificateType"),
+      language: "日本文",
+      designatedFormat: "無",
+      quantity: v("quantity")
+    }]
+  };
+
+  try{
+    const res = await fetch(GAS_URL,{
+      method:"POST",
+      headers:{
+        "Content-Type":"text/plain"
+      },
+      body:JSON.stringify(data)
+    });
+
+    const json = await res.json();
+
+    if(!json.success) throw new Error(json.message);
+
+    msg.innerHTML =
+      '<div class="success">完了<br>受付番号:'+json.receiptNo+'</div>';
+
+  }catch(e){
+    msg.innerHTML =
+      '<div class="error">'+e.message+'</div>';
+  }
+}
+
+function v(id){
+  return document.getElementById(id).value;
+}
+</script>
+
+</body>
+</html>
