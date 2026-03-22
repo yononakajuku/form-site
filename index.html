@@ -1141,64 +1141,71 @@
     }
 
     async function finalSubmit() {
-      if (submitting) return;
+  if (submitting) return;
 
-      if (!tempPayload) {
-        tempPayload = collectFormData();
-      }
+  if (!tempPayload) {
+    tempPayload = collectFormData();
+  }
 
-      const btn = document.getElementById('submitBtn');
-      const msg = document.getElementById('confirmMessage');
+  const btn = document.getElementById('submitBtn');
+  const backBtn = document.querySelector('#confirmArea .secondary');
+  const msg = document.getElementById('confirmMessage');
 
-      submitting = true;
-      btn.disabled = true;
-      btn.textContent = '送信中...';
-      msg.innerHTML = '';
+  submitting = true;
+  btn.disabled = true;
+  btn.textContent = '送信中...';
+  msg.innerHTML = '';
 
-      try {
-        const res = await fetch(GAS_URL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'text/plain;charset=utf-8'
-          },
-          body: JSON.stringify(tempPayload)
-        });
+  try {
+    const res = await fetch(GAS_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8'
+      },
+      body: JSON.stringify(tempPayload)
+    });
 
-        const data = await res.json();
+    const data = await res.json();
 
-        if (!data.success) {
-          throw new Error(data.message || '送信に失敗しました。');
-        }
-
-        let mailInfo = '';
-        if (data.mailResult) {
-          mailInfo =
-            '<br>申請者メール: ' + escapeHtml(data.mailResult.applicant || '') +
-            '<br>管理者メール: ' + escapeHtml(data.mailResult.admin || '');
-        }
-
-        msg.innerHTML =
-          '<div class="success">' +
-          '申請が完了しました。<br>' +
-          '受付ID: ' + escapeHtml(data.receiptNo || '') + '<br>' +
-          '合計金額: ' + escapeHtml(String(data.total || '')) + '円' +
-          mailInfo +
-          '<br><br>' +
-          '<span style="color:red; font-weight:bold;">' +
-          '※別途募集要項のコピー等、必要書類、指定様式の用紙などが必要な場合、それらを直接提出した時点で申請開始となります。' +
-          '</span>' +
-          '</div>';
-      } catch (err) {
-        msg.innerHTML =
-          '<div class="error">' +
-          escapeHtml(err.message || '送信に失敗しました。') +
-          '</div>';
-      } finally {
-        submitting = false;
-        btn.disabled = false;
-        btn.textContent = 'この内容で送信する';
-      }
+    if (!data.success) {
+      throw new Error(data.message || '送信に失敗しました。');
     }
+
+    let mailInfo = '';
+    if (data.mailResult) {
+      mailInfo =
+        '<br>申請者メール: ' + escapeHtml(data.mailResult.applicant || '') +
+        '<br>管理者メール: ' + escapeHtml(data.mailResult.admin || '');
+    }
+
+    msg.innerHTML =
+      '<div class="success">' +
+      '申請が完了しました。<br>' +
+      '受付ID: ' + escapeHtml(data.receiptNo || '') + '<br>' +
+      '合計金額: ' + escapeHtml(String(data.total || '')) + '円' +
+      mailInfo +
+      '<br><br>' +
+      '<span style="color:red; font-weight:bold;">' +
+      '※別途募集要項のコピー等、必要書類、指定様式の用紙などが必要な場合、それらを直接提出した時点で申請開始となります。' +
+      '</span>' +
+      '</div>';
+
+    btn.style.display = 'none';
+    if (backBtn) backBtn.style.display = 'none';
+
+  } catch (err) {
+    msg.innerHTML =
+      '<div class="error">' +
+      escapeHtml(err.message || '送信に失敗しました。') +
+      '</div>';
+
+    btn.disabled = false;
+    btn.textContent = 'この内容で送信する';
+    if (backBtn) backBtn.style.display = '';
+  } finally {
+    submitting = false;
+  }
+}
 
     function valueOf(id) {
       const el = document.getElementById(id);
